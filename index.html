@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
+    
 <head>
+    <!-- all neccessary libraries -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -15,7 +17,11 @@
     <script src="threex/threex-artoolkitcontext.js"></script>
     <script src="threex/threex-arbasecontrols.js"></script>
     <script src="threex/threex-armarkercontrols.js"></script>
+
+    <!-- css -->
+
     <style>
+
         body {
             margin: 0;
         }
@@ -44,11 +50,12 @@
             /* color: skyblue; */
         }
     </style>
+
 </head>
 
 <body>
-    <!-- <script src='js/three.js'></script> -->
-    <!-- <script src="THREE/examples/jsm/loaders/OBJLoader2.js"></script> -->
+        <!-- search bar element -->
+
     <div class="search-bar">
         <img class="logo" src="./images/FreeGameLogo.PNG">
         <div>
@@ -56,76 +63,11 @@
             <button>Search</button>
         </div>
     </div>
-    <!-- <script type="module">
-        'use strict'
-        import * as THREE from "./THREE/build/three.module.js";
-        import { OBJLoader2 } from "./THREE/examples/jsm/loaders/OBJLoader2.js";
-
-        // var scene = new THREE.Scene();
-        // var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        // var renderer = new THREE.WebGLRenderer();
-        // renderer.setSize(window.innerWidth, window.innerHeight);
-        // document.body.appendChild(renderer.domElement);
-
-        // var geometry = new THREE.BoxGeometry();
-        // var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        // var cube = new THREE.Mesh(geometry, material);
-        // scene.add(cube);
-
-        // camera.position.z = 5;
-
-        // var animate = function () {
-        //     requestAnimationFrame(animate);
-
-        //     cube.rotation.x += 0.01;
-        //     cube.rotation.y += 0.01;
-
-        //     renderer.render(scene, camera);
-        // };
-
-        // animate();
-
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-
-        let ambientLight = new THREE.AmbientLight(0x404040);
-        scene.add(ambientLight);
-
-        let loader = new OBJLoader2();
-        var globe;
-        function callbackOnLoad(object3d) {
-            globe = object3d;
-            object3d.position.z = -5;
-            // var material = new THREE.MeshBasicMaterial({ color: 0x87ceeb });
-            // var mesh = new THREE.Mesh(globe, material);
-            scene.add(object3d);
-        }
-        // load a resource from provided URL synchronously
-        loader.load('models/freegameTRUglobe.obj', callbackOnLoad, null, null, null);
-
-        // something
-        var animate = function () {
-            requestAnimationFrame(animate);
-
-            globe.rotation.y += 0.005;
-
-            renderer.render(scene, camera);
-        };
-
-        animate();
-
-
-
-    </script> -->
+    
     <script type="module">
         import * as THREE from "./THREE/build/three.module.js";
         import { OBJLoader2 } from "./THREE/examples/jsm/loaders/OBJLoader2.js";
+        // global variables 
         var scene, camera, renderer, clock, deltaTime, totalTime;
 
         var arToolkitSource, arToolkitContext;
@@ -141,13 +83,17 @@
 
         function initialize() {
             scene = new THREE.Scene();
-
+            // create ambient light
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+           
+            // add ambient light to scene
             scene.add(ambientLight);
-
+           
+            // create camera and add to scene
             camera = new THREE.Camera();
             scene.add(camera);
-
+            
+            //create canvas element
             renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
@@ -157,6 +103,7 @@
             renderer.domElement.style.position = 'absolute'
             renderer.domElement.style.top = '0px'
             renderer.domElement.style.left = '0px'
+            // add canvas element to DOM
             document.body.appendChild(renderer.domElement);
 
             clock = new THREE.Clock();
@@ -214,30 +161,15 @@
                 type: 'pattern', patternUrl: "data/hiro.patt",
             })
 
-            // let geometry1 = new THREE.SphereGeometry(1, 32, 32);
-            // // var geometry1 = new THREE.PlaneGeometry(3, 3, 30);
-
-            // let loader = new THREE.TextureLoader();
-            // let texture = loader.load('images/earth-sphere.jpg', render);
-            // // let texture = loader.load('images/field-sphere.jpg', render);
-            // // let texture = loader.load('images/FreeGameLogo.jpg', render);
-            // // var material1 = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-            // let material1 = new THREE.MeshLambertMaterial({ map: texture, opacity: 0.8 });
-            // // let material1 = new THREE.MeshStandardMaterial({ map: texture, opacity: 0.5 });
-
-            // mesh1 = new THREE.Mesh(geometry1, material1);
-            // mesh1.position.y = 1;
-            // mesh1.rotation.x = 1;
+         
             function callbackOnLoad(object3d) {
                 globe = object3d;
                 object3d.position.z = -10;
-                // var material = new THREE.MeshBasicMaterial({ color: 0x87ceeb });
-                // var mesh = new THREE.Mesh(globe, material);
                 scene.add(object3d);
             }
             let loader = new OBJLoader2();
 
-            // load a resource from provided URL synchronously
+            // load a rotating globe
             loader.load('models/freegameTRUglobe.obj', callbackOnLoad, null, null, null);
 
 
@@ -257,20 +189,18 @@
 
 
         function update() {
-            // if (markerRoot1.visible)
-            // mesh1.rotation.y += 0.01;
-            // mesh1.rotation.x += 0.01;
             // update artoolkit on every frame
             if (arToolkitSource.ready !== false)
                 arToolkitContext.update(arToolkitSource.domElement);
         }
 
-
+        
         function render() {
+            //renders globe to canvas
             renderer.render(scene, camera);
         }
 
-
+        // is called on refresh... makes globe spin
         function animate() {
             requestAnimationFrame(animate);
             deltaTime = clock.getDelta();
