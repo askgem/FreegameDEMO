@@ -4,6 +4,7 @@ body {
 }
 
 #search-bar {
+    margin-top: 20px;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
