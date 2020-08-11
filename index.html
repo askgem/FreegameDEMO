@@ -17,6 +17,11 @@
     <script src="threex/threex-artoolkitcontext.js"></script>
     <script src="threex/threex-arbasecontrols.js"></script>
     <script src="threex/threex-armarkercontrols.js"></script>
+    <!-- vue.js -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!-- axios.js -->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
 
     <!-- css -->
 
@@ -56,13 +61,24 @@
 <body>
         <!-- search bar element -->
 
-    <div class="search-bar">
-        <img class="logo" src="./images/FreeGameLogo.PNG">
-        <div>
-            <input type="text" placeholder="Enter search keyword.">
-            <button>Search</button>
-        </div>
-    </div>
+    
+    <div id="search-bar">
+		<img class="logo" style="width: 40%;" src="./images/FreeGameLogo.PNG" alt="">
+		<div class="input">
+			<input id="search-box" type="text" v-model="keyword" placeholder="please enter search keyword" />
+			<button id="search-btn" v-on:click="searchBtnOnClick">Search</button>
+		</div>
+	</div>
+
+	<div id="search-result">
+		<!--	<button v-if="result.length == 0" v-on:click="result=[]">Clear</button>-->
+		<button v-if="result.length != 0" v-on:click="result=[]">Clear</button>
+		<div v-for="(item,index) in result" :key="index" class="result-item">
+			<a :href="item.url">{{item.name}}</a>
+			<span class="url">{{item.displayUrl}}</span>
+			<span>{{item.snippet}}</span>
+		</div>
+	</div>
     
     <script type="module">
         import * as THREE from "./THREE/build/three.module.js";
@@ -212,7 +228,7 @@
         }
 
     </script>
-
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
