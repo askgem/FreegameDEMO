@@ -21,12 +21,14 @@ var searchResult = new Vue({
 });
 
 
-// Key 1: dbd26bf4d9f7408387421d019e8c7516
-function googleSearch() {
+    //Key 1: b42220236cd64172af7d910cb3236d89
+    // Key 2: 0e28e0f3c1504fca8e58c4def72d06d9
+
+ function googleSearch() {
 	// const baseUrl = "http://localhost:5000/search?keyword=";
 	// Preparation
 	const baseUrl = "https://api.cognitive.microsoft.com/bing/v7.0/search?q=";
-	const sub_key = "dbd26bf4d9f7408387421d019e8c7516";
+	const sub_key = "b42220236cd64172af7d910cb3236d89";
 	// Getting user input
 	let keyword = searchBar.$data.keyword;
 	// Bing Search API Call
