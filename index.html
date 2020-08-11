@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    
+
+
 <head>
     <!-- all neccessary libraries -->
     <meta charset="UTF-8">
@@ -18,28 +18,34 @@
     <script src="threex/threex-arbasecontrols.js"></script>
     <script src="threex/threex-armarkercontrols.js"></script>
     <!-- vue.js -->
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<!-- axios.js -->
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- axios.js -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- css -->
 
     <style>
-
         body {
             margin: 0;
         }
 
         canvas {
+            position: absolute;
             display: block;
+            z-index: -1;
+        }
+
+        video {
+            position: absolute;
+            z-index: -2;
         }
 
         .logo {
             width: 400px;
         }
 
-        .search-bar {
+        .wrapper {
             margin-top: 20px;
             width: 100%;
             position: absolute;
@@ -47,7 +53,6 @@
             flex-flow: column nowrap;
             /* justify-content: center; */
             align-items: center;
-
         }
 
         .search-bar input {
@@ -59,31 +64,31 @@
 </head>
 
 <body>
+    <div class="wrapper">
+
         <!-- search bar element -->
+        <div id="search-bar">
+            <img class="logo" src="./images/FreeGameLogo.PNG" alt="">
+            <div class="input">
+                <input id="search-box" type="text" v-model="keyword" placeholder=" enter search here" />
+                <button id="search-btn" v-on:click="searchBtnOnClick">Search</button>
+            </div>
+        </div>
 
-    
-    <div id="search-bar">
-		<img class="logo"  src="./images/FreeGameLogo.PNG" alt="">
-		<div class="input">
-			<input id="search-box" type="text" v-model="keyword" placeholder=" enter search here" />
-			<button id="search-btn" v-on:click="searchBtnOnClick">Search</button>
-		</div>
-	</div>
+        <div id="search-result">
+            <button v-if="result.length != 0" v-on:click="result=[]">Clear</button>
+            <div v-for="(item,index) in result" :key="index" class="result-item">
+                <a :href="item.url">{{item.name}}</a>
+                <span class="url">{{item.displayUrl}}</span>
+                <span>{{item.snippet}}</span>
+            </div>
+        </div>
+    </div>
 
-	<div id="search-result">
-		<!--	<button v-if="result.length == 0" v-on:click="result=[]">Clear</button>-->
-		<button v-if="result.length != 0" v-on:click="result=[]">Clear</button>
-		<div v-for="(item,index) in result" :key="index" class="result-item">
-			<a :href="item.url">{{item.name}}</a>
-			<span class="url">{{item.displayUrl}}</span>
-			<span>{{item.snippet}}</span>
-		</div>
-	</div>
-    
     <script type="module">
         import * as THREE from "./THREE/build/three.module.js";
         import { OBJLoader2 } from "./THREE/examples/jsm/loaders/OBJLoader2.js";
-        // global variables 
+        // global variables
         var scene, camera, renderer, clock, deltaTime, totalTime;
 
         var arToolkitSource, arToolkitContext;
@@ -101,21 +106,21 @@
             scene = new THREE.Scene();
             // create ambient light
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
-           
+
             // add ambient light to scene
             scene.add(ambientLight);
-           
+
             // create camera and add to scene
             camera = new THREE.Camera();
             scene.add(camera);
-            
+
             //create canvas element
             renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
             });
             renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            renderer.setSize(640, 480);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.domElement.style.position = 'absolute'
             renderer.domElement.style.top = '0px'
             renderer.domElement.style.left = '0px'
@@ -177,7 +182,7 @@
                 type: 'pattern', patternUrl: "data/hiro.patt",
             })
 
-         
+
             function callbackOnLoad(object3d) {
                 globe = object3d;
                 object3d.position.z = -10;
@@ -210,7 +215,7 @@
                 arToolkitContext.update(arToolkitSource.domElement);
         }
 
-        
+
         function render() {
             //renders globe to canvas
             renderer.render(scene, camera);

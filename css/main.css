@@ -1,8 +1,6 @@
 
 body {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
+
 }
 
 #search-bar {
@@ -11,11 +9,6 @@ body {
     align-items: center;
 }
 
-.logo {
-}
-
-#search-bar .input {
-}
 
 #search-result {
     width: 90%;
@@ -64,7 +57,7 @@ body {
 
 canvas, video{
     /* display: flex; */
-    position: absolute;
+    /* position: absolute;
     height: 100vh !important;
-    width: 100vw !important;
+    width: 100vw !important; */
 }
